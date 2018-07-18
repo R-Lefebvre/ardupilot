@@ -2,7 +2,7 @@
 
 #include "ap_version.h"
 
-#define THISFIRMWARE "ArduHeli V3.5.6"
+#define THISFIRMWARE "NovaCopter V3.5.1-RC1"
 #define FIRMWARE_VERSION 3,5,6,FIRMWARE_VERSION_TYPE_OFFICIAL
 
 #ifndef GIT_VERSION
