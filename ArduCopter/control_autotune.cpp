@@ -164,6 +164,7 @@ static float    tune_yaw_rp, tune_yaw_rLPF, tune_yaw_sp, tune_yaw_accel;
 // autotune_init - should be called when autotune mode is selected
 bool Copter::autotune_init(bool ignore_checks)
 {
+    /*
     bool success = true;
 
     switch (autotune_state.mode) {
@@ -210,6 +211,9 @@ bool Copter::autotune_init(bool ignore_checks)
     autotune_state.have_position = false;
 
     return success;
+    */
+   // Autotune mode is disabled
+   return false;
 }
 
 // autotune_stop - should be called when the ch7/ch8 switch is switched OFF

@@ -75,6 +75,7 @@ static struct {
 // poshold_init - initialise PosHold controller
 bool Copter::poshold_init(bool ignore_checks)
 {
+    /*
     // fail to initialise PosHold mode if no GPS lock
     if (!position_ok() && !ignore_checks) {
         return false;
@@ -120,6 +121,9 @@ bool Copter::poshold_init(bool ignore_checks)
     poshold.wind_comp_timer = 0;
 
     return true;
+    */
+   // PosHold mode is disabled 
+   return false;
 }
 
 // poshold_run - runs the PosHold controller
