@@ -79,15 +79,15 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
             break;
 
         case DRIFT:
-            success = drift_init(ignore_checks);
+            success = false; // drift_init(ignore_checks);
             break;
 
         case SPORT:
-            success = sport_init(ignore_checks);
+            success = false; // sport_init(ignore_checks);
             break;
 
         case FLIP:
-            success = flip_init(ignore_checks);
+            success = false; // flip_init(ignore_checks);
             break;
 
 #if AUTOTUNE_ENABLED == ENABLED
@@ -107,7 +107,7 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
             break;
 
         case THROW:
-            success = throw_init(ignore_checks);
+            success = false; // throw_init(ignore_checks);
             break;
 
         case AVOID_ADSB:

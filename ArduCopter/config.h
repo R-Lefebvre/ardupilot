@@ -227,7 +227,7 @@
 //////////////////////////////////////////////////////////////////////////////
 //  Auto Tuning
 #ifndef AUTOTUNE_ENABLED
- # define AUTOTUNE_ENABLED  ENABLED
+ # define AUTOTUNE_ENABLED  DISABLED
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
@@ -502,7 +502,7 @@
 // PosHold parameter defaults
 //
 #ifndef POSHOLD_ENABLED
- # define POSHOLD_ENABLED               ENABLED // PosHold flight mode enabled by default
+ # define POSHOLD_ENABLED               DISABLED // PosHold flight mode enabled by default
 #endif
 #ifndef POSHOLD_BRAKE_RATE_DEFAULT
  # define POSHOLD_BRAKE_RATE_DEFAULT    8       // default POSHOLD_BRAKE_RATE param value.  Rotation rate during braking in deg/sec

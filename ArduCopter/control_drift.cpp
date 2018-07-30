@@ -29,11 +29,15 @@
 // drift_init - initialise drift controller
 bool Copter::drift_init(bool ignore_checks)
 {
+    /*
     if (position_ok() || ignore_checks) {
         return true;
     }else{
         return false;
     }
+    */
+   // Drift mode is disabled
+   return false;
 }
 
 // drift_run - runs the drift controller
