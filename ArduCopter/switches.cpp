@@ -37,7 +37,12 @@ void Copter::read_control_switch()
     bool sufficient_time_elapsed = tnow_ms - control_switch_state.last_edge_time_ms > CONTROL_SWITCH_DEBOUNCE_TIME_MS;
     bool failsafe_disengaged = !failsafe.radio && failsafe.radio_counter == 0;
 
-    if (control_switch_changed && sufficient_time_elapsed && failsafe_disengaged) {
+    // out of bounds checking
+	uint16_t rc5_min = RC_Channels::rc_channel(CH_5)->get_radio_min();
+	uint16_t rc5_max = RC_Channels::rc_channel(CH_5)->get_radio_max();
+	bool out_of_bounds = ((rc5_in < (rc5_min - 10)) || (rc5_in > (rc5_max + 10)));
+
+    if (control_switch_changed && sufficient_time_elapsed && failsafe_disengaged  && !out_of_bounds) {
         // set flight mode and simple mode setting
         if (set_mode((control_mode_t)flight_modes[switch_position].get(), MODE_REASON_TX_COMMAND)) {
             // play a tone
