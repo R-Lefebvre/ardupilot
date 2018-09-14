@@ -135,10 +135,31 @@ void Copter::heli_update_rotor_speed_targets()
 {
 
     static bool rotor_runup_complete_last = false;
+	
+	// when rotor_runup_complete changes to true, log event
+    if (!rotor_runup_complete_last && motors->rotor_runup_complete()){
+        Log_Write_Event(DATA_ROTOR_RUNUP_COMPLETE);
+    } else if (rotor_runup_complete_last && !motors->rotor_runup_complete()){
+        Log_Write_Event(DATA_ROTOR_SPEED_BELOW_CRITICAL);
+    }
+    rotor_runup_complete_last = motors->rotor_runup_complete();
+	
+	// get control in
+	uint16_t rc8_in = RC_Channels::rc_channel(CH_8)->get_radio_in();
 
-    // get rotor control method
+	// out of bounds checking
+	uint16_t rc8_min = RC_Channels::rc_channel(CH_8)->get_radio_min();
+	uint16_t rc8_max = RC_Channels::rc_channel(CH_8)->get_radio_max();
+	bool out_of_bounds = ((rc8_in < (rc8_min - 10)) || (rc8_in > (rc8_max + 10)));
+	
+	// exit immediately during radio_failsafe or out_of_bounds data
+	// we will not process RSC controls during failsafe, they will remain static
+	if (out_of_bounds || failsafe.radio || (failsafe.radio_counter != 0)) {
+		return;
+	}
+	
+	// get rotor control method
     uint8_t rsc_control_mode = motors->get_rsc_mode();
-
     float rsc_control_deglitched = rotor_speed_deglitch_filter.apply((float)RC_Channels::rc_channel(CH_8)->get_control_in()) * 0.001f;
 
     switch (rsc_control_mode) {
@@ -166,14 +187,6 @@ void Copter::heli_update_rotor_speed_targets()
             }
             break;
     }
-
-    // when rotor_runup_complete changes to true, log event
-    if (!rotor_runup_complete_last && motors->rotor_runup_complete()){
-        Log_Write_Event(DATA_ROTOR_RUNUP_COMPLETE);
-    } else if (rotor_runup_complete_last && !motors->rotor_runup_complete()){
-        Log_Write_Event(DATA_ROTOR_SPEED_BELOW_CRITICAL);
-    }
-    rotor_runup_complete_last = motors->rotor_runup_complete();
 }
 
 #endif  // FRAME_CONFIG == HELI_FRAME
