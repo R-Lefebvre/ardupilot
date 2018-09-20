@@ -544,11 +544,11 @@ void AP_MotorsHeli_Single::servo_test()
         _oscillate_angle += 8 * M_PI / _loop_rate;
         _yaw_test = 0.5f * sinf(_oscillate_angle);
     } else if (_servo_test_cycle_time >= 5.0f && _servo_test_cycle_time < 6.0f){                              // Raise swash to top
-        _collective_test = 1.0f;
+        _collective_test += (1.0f/_loop_rate);
         _oscillate_angle += 2 * M_PI / _loop_rate;
         _yaw_test = sinf(_oscillate_angle);
     } else if (_servo_test_cycle_time >= 11.0f && _servo_test_cycle_time < 12.0f){                            // Lower swash to bottom
-        _collective_test = 0.0f;
+        _collective_test -= (1.0f/_loop_rate);
         _oscillate_angle += 2 * M_PI / _loop_rate;
         _yaw_test = sinf(_oscillate_angle);
     } else {                                                                                                  // reset cycle
