@@ -1193,6 +1193,10 @@ void GCS_MAVLINK_Copter::handleMessage(mavlink_message_t* msg)
             if (packet.param1 > 0.5f) {
                 copter.init_disarm_motors();
                 result = MAV_RESULT_ACCEPTED;
+#if FRAME_CONFIG == HELI_FRAME
+                // Lock swashplate down for landing on moving platforms.  This will require reboot to reset.
+                copter.motors->lock_swash_for_landing(true);
+#endif
             }
             break;
 
