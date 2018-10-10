@@ -390,6 +390,15 @@ void AP_MotorsHeli_Single::update_motor_control(RotorControlState state)
 //
 void AP_MotorsHeli_Single::move_actuators(float roll_out, float pitch_out, float coll_in, float yaw_out)
 {
+	
+    // lock_swash_for_landing is a method to lock swashplate down for landing on a deck.  No stabilization will occur. 
+    // This is used for landing on a moving platform or other places where stabilization is not desired.
+    // Rotor tip path plane will follow deck angle automatically (aerodynamic effect)
+    if (_heliflags.lock_swash_for_landing){
+        roll_out = 0.0f;
+        pitch_out = 0.0f;
+    }
+
     float yaw_offset = 0.0f;
 
     // initialize limits flag
@@ -422,8 +431,12 @@ void AP_MotorsHeli_Single::move_actuators(float roll_out, float pitch_out, float
         limit.throttle_upper = true;
     }
 
+    // lock_swash_for_landing is a method to lock swashplate down for landing on a deck.  Collective will be set to Land_Col_Min. 
+    if (_heliflags.lock_swash_for_landing){
+        collective_out = (_land_collective_min*0.001f);
+        limit.throttle_lower = true;
     // ensure not below landed/landing collective
-    if (_heliflags.landing_collective && collective_out < (_land_collective_min*0.001f)) {
+    } else if (_heliflags.landing_collective && collective_out < (_land_collective_min*0.001f)) {
         collective_out = (_land_collective_min*0.001f);
         limit.throttle_lower = true;
     }
