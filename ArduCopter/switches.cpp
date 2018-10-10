@@ -201,6 +201,7 @@ void Copter::init_aux_switch_function(int8_t ch_option, uint8_t ch_flag)
         case AUXSW_AVOID_ADSB:
         case AUXSW_PRECISION_LOITER:
         case AUXSW_AVOID_PROXIMITY:
+		case AUXSW_LOCK_SWASH:
             do_aux_switch_function(ch_option, ch_flag);
             break;
     }
@@ -598,6 +599,10 @@ void Copter::do_aux_switch_function(int8_t ch_function, uint8_t ch_flag)
                 init_disarm_motors();
                 break;
             }
+            break;
+        case AUXSW_LOCK_SWASH:
+            // Helicopter only: lock swash plate down for landing
+            copter.motors->lock_swash_for_landing(ch_flag == AUX_SWITCH_HIGH);
             break;
     }
 }
