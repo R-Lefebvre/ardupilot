@@ -60,6 +60,7 @@ public:
         // initialise flags
         _heliflags.landing_collective = 0;
         _heliflags.rotor_runup_complete = 0;
+        _heliflags.lock_swash_for_landing = 0;
     };
 
     // init
@@ -94,6 +95,9 @@ public:
 
     // set_collective_for_landing - limits collective from going too low if we know we are landed
     void set_collective_for_landing(bool landing) { _heliflags.landing_collective = landing; }
+
+    // lock_swash_for_landing - locks swash down for landing on moving decks
+    void lock_swash_for_landing(bool locked) { _heliflags.lock_swash_for_landing = locked; }
 
     // get_rsc_mode - gets the rotor speed control method (AP_MOTORS_HELI_RSC_MODE_CH8_PASSTHROUGH or AP_MOTORS_HELI_RSC_MODE_SETPOINT)
     uint8_t get_rsc_mode() const { return _rsc_mode; }
@@ -188,6 +192,7 @@ protected:
     struct heliflags_type {
         uint8_t landing_collective      : 1;    // true if collective is setup for landing which has much higher minimum
         uint8_t rotor_runup_complete    : 1;    // true if the rotors have had enough time to wind up
+        uint8_t lock_swash_for_landing  : 1;    // true if the swash is locked down for landing on moving decks
     } _heliflags;
 
     // parameters
