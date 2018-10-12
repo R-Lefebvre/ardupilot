@@ -126,17 +126,32 @@ void Copter::loiter_run()
 
         motors->set_desired_spool_state(AP_Motors::DESIRED_SHUT_DOWN);
 #if FRAME_CONFIG == HELI_FRAME
-        // force descent rate and call position controller
-        pos_control->set_alt_target_from_climb_rate(-abs(g.land_speed), G_Dt, false);
+        if (!motors->get_interlock() && ap.land_complete) {
+            wp_nav->init_loiter_target();
+            attitude_control->reset_rate_controller_I_terms();
+            attitude_control->set_yaw_target_to_current_heading();
+            pos_control->relax_alt_hold_controllers(0.0f);   // forces throttle output to go to zero
+            attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(0, 0, 0, get_smoothing_gain());
+            pos_control->update_z_controller();
+        } else {
+            // force descent rate and call position controller
+            pos_control->set_alt_target_from_climb_rate(-abs(g.land_speed), G_Dt, false);
+            if (ap.land_complete_maybe) {
+                pos_control->relax_alt_hold_controllers(0.0f);
+            }
+            wp_nav->update_loiter(ekfGndSpdLimit, ekfNavVelGainScaler);
+            attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(wp_nav->get_roll(), wp_nav->get_pitch(), target_yaw_rate, get_smoothing_gain());
+            pos_control->update_z_controller();
+        }
 #else
         wp_nav->init_loiter_target();
         attitude_control->reset_rate_controller_I_terms();
         attitude_control->set_yaw_target_to_current_heading();
         pos_control->relax_alt_hold_controllers(0.0f);   // forces throttle output to go to zero
-#endif
         wp_nav->update_loiter(ekfGndSpdLimit, ekfNavVelGainScaler);
         attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(wp_nav->get_roll(), wp_nav->get_pitch(), target_yaw_rate, get_smoothing_gain());
         pos_control->update_z_controller();
+#endif
         break;
 
     case Loiter_Takeoff:
