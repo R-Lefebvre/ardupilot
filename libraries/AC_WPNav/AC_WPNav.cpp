@@ -378,7 +378,7 @@ void AC_WPNav::update_brake(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 
         // send adjusted feed forward velocity back to position controller
         _pos_control.set_desired_velocity_xy(0,0);
-        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_LIMITED_AND_VEL_FF, ekfNavVelGainScaler, false);
+        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_LIMITED_AND_VEL_FF, ekfNavVelGainScaler, _accel_limit_use);
     }
 }
 
@@ -774,7 +774,7 @@ bool AC_WPNav::update_wpnav()
         }
         _pos_control.freeze_ff_z();
 
-        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_ONLY, 1.0f, false);
+        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_ONLY, 1.0f, _accel_limit_use);
         check_wp_leash_length();
 
         _wp_last_update = AP_HAL::millis();
@@ -1067,7 +1067,7 @@ bool AC_WPNav::update_spline()
         _pos_control.freeze_ff_z();
 
         // run horizontal position controller
-        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_ONLY, 1.0f, false);
+        _pos_control.update_xy_controller(AC_PosControl::XY_MODE_POS_ONLY, 1.0f, _accel_limit_use);
 
         _wp_last_update = AP_HAL::millis();
     }
