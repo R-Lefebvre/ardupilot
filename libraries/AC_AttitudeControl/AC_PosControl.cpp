@@ -15,6 +15,15 @@ const AP_Param::GroupInfo AC_PosControl::var_info[] = {
     // @Increment: 0.1
     // @User: Advanced
     AP_GROUPINFO("_ACC_XY_FILT", 1, AC_PosControl, _accel_xy_filt_hz, POSCONTROL_ACCEL_FILTER_HZ),
+	
+	// @Param: _JERK_LIMIT
+    // @DisplayName: Position controller maximum jerk
+    // @Description: Position controller maximum jerk in cm/s/s/s
+    // @Units: cm/s/s/s
+    // @Range: 500 5000
+    // @Increment: 1
+    // @User: Advanced
+    AP_GROUPINFO("_JERK_LIMIT", 2, AC_PosControl, _jerk_limit_cmsss, POSCONTROL_JERK_LIMIT_CMSSS),
 
     AP_GROUPEND
 };
@@ -976,7 +985,7 @@ void AC_PosControl::accel_to_lean_angles(float dt, float ekfNavVelGainScaler, bo
         _flags.reset_accel_to_lean_xy = false;
     }
 
-    // apply jerk limit of 17 m/s^3 - equates to a worst case of about 100 deg/sec/sec
+    // apply jerk limit
     float max_delta_accel = dt * _jerk_cmsss;
 
     Vector2f accel_in(_accel_target.x, _accel_target.y);

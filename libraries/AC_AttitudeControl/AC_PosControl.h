@@ -193,7 +193,7 @@ public:
 
     /// set_jerk_xy - set max horizontal jerk in cm/s/s/s
     void set_jerk_xy(float jerk_cmsss) { _jerk_cmsss = jerk_cmsss; }
-    void set_jerk_xy_to_default() { _jerk_cmsss = POSCONTROL_JERK_LIMIT_CMSSS; }
+    void set_jerk_xy_to_default() { _jerk_cmsss = _jerk_limit_cmsss; }
 
     /// set_limit_accel_xy - mark that accel has been limited
     ///     this prevents integrator buildup
@@ -384,6 +384,7 @@ protected:
 
     // parameters
     AP_Float    _accel_xy_filt_hz;      // XY acceleration filter cutoff frequency
+    AP_Float    _jerk_limit_cmsss;      // XY acceleration jerk limit
 
     // internal variables
     float       _dt;                    // time difference (in seconds) between calls from the main program
