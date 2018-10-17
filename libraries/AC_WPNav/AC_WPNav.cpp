@@ -103,6 +103,13 @@ const AP_Param::GroupInfo AC_WPNav::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("RFND_USE",   10, AC_WPNav, _rangefinder_use, 1),
     
+    // @Param: ACC_LIM
+    // @DisplayName: Waypoint Nav to Use Accel Limiting
+    // @Description: Waypoint controller limits total acceleration demand to control power usage
+    // @Values: 0:Disable,1:Enable
+    // @User: Advanced
+    AP_GROUPINFO("ACC_LIM",   11, AC_WPNav, _accel_limit_use, 0),
+    
     AP_GROUPEND
 };
 
