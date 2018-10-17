@@ -335,6 +335,7 @@ protected:
     AP_Float    _wp_radius_cm;          // distance from a waypoint in cm that, when crossed, indicates the wp has been reached
     AP_Float    _wp_accel_cms;          // horizontal acceleration in cm/s/s during missions
     AP_Float    _wp_accel_z_cms;        // vertical acceleration in cm/s/s during missions
+    AP_Int8     _accel_limit_use;       // controller limits total acceleration demand to control power usage
 
     // loiter controller internal variables
     int16_t     _pilot_accel_fwd_cms; 	// pilot's desired acceleration forward (body-frame)
