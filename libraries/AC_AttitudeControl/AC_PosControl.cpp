@@ -971,7 +971,7 @@ void AC_PosControl::accel_to_lean_angles(float dt, float ekfNavVelGainScaler, bo
     if (accel_total > accel_max && accel_total > 0.0f) {
         _accel_target.x = accel_max * _accel_target.x/accel_total;
         _accel_target.y = accel_max * _accel_target.y/accel_total;
-        _limit.accel_xy = true;     // unused
+        _limit.accel_xy = true;     // used to limit vel_xy i-term wind-up
     } else {
         // reset accel limit flag
         _limit.accel_xy = false;
