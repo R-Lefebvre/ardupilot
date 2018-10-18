@@ -744,8 +744,8 @@ float Copter::get_auto_heading(void)
         return yaw_look_at_heading;
 
     case AUTO_YAW_LOOK_AHEAD:
-        // Commanded Yaw to automatically look ahead.
-        return get_look_ahead_yaw();
+        // commanded yaw to automatically look ahead along earth frame velocity vector
+        return get_ef_velocity_vector_yaw();
 
     case AUTO_YAW_RESETTOARMEDYAW:
         // changes yaw to be same as when quad was armed

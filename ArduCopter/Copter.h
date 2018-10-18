@@ -672,7 +672,7 @@ private:
     float get_pilot_desired_yaw_rate(int16_t stick_angle);
     void check_ekf_reset();
     float get_roi_yaw();
-    float get_look_ahead_yaw();
+    float get_ef_velocity_vector_yaw();
     void update_throttle_hover();
     void set_throttle_takeoff();
     float get_pilot_desired_throttle(int16_t throttle_control, float thr_mid = 0.0f);
