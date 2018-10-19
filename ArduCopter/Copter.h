@@ -475,8 +475,11 @@ private:
     // Deg/s we should turn
     int16_t yaw_look_at_heading_slew;
 
-    // heading when in yaw_look_ahead_bearing
+    // heading when in YAW_LOOK_AHEAD yaw_mode
     float yaw_look_ahead_bearing;
+    
+    // heading when in YAW_HELICOPTER_FAST yaw_mode
+    float yaw_heli_fast_bearing;
 
     // turn rate (in cds) when auto_yaw_mode is set to AUTO_YAW_RATE
     float auto_yaw_rate_cds;

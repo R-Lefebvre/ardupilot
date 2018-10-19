@@ -603,6 +603,9 @@ uint8_t Copter::get_default_auto_yaw_mode(bool rtl)
 
         case WP_YAW_BEHAVIOR_LOOK_AHEAD:
             return AUTO_YAW_LOOK_AHEAD;
+            
+        case WP_YAW_BEHAVIOR_HELICOPTER_FAST:
+            return AUTO_YAW_HELICOPTER_FAST;
 
         case WP_YAW_BEHAVIOR_LOOK_AT_NEXT_WP:
         default:
@@ -639,6 +642,11 @@ void Copter::set_auto_yaw_mode(uint8_t yaw_mode)
     case AUTO_YAW_LOOK_AHEAD:
         // Commanded Yaw to automatically look ahead.
         yaw_look_ahead_bearing = ahrs.yaw_sensor;
+        break;
+        
+    case AUTO_YAW_HELICOPTER_FAST:
+        // Commanded Yaw to automatically look ahead.
+        yaw_heli_fast_bearing = ahrs.yaw_sensor;
         break;
 
     case AUTO_YAW_RESETTOARMEDYAW:
@@ -744,6 +752,10 @@ float Copter::get_auto_heading(void)
         return yaw_look_at_heading;
 
     case AUTO_YAW_LOOK_AHEAD:
+        // commanded yaw to automatically look ahead along earth frame velocity vector
+        return get_ef_velocity_vector_yaw();
+        
+    case AUTO_YAW_HELICOPTER_FAST:
         // commanded yaw to automatically look ahead along earth frame velocity vector
         return get_ef_velocity_vector_yaw();
 
