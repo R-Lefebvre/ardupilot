@@ -196,6 +196,9 @@ bool AP_MotorsHeli_Single::init_outputs()
     if (_swashplate.get_swash_type() == SWASHPLATE_TYPE_H4_90 || _swashplate.get_swash_type() == SWASHPLATE_TYPE_H4_45) {
         reset_swash_servo(SRV_Channels::get_motor_function(4));
     }
+    
+    // set _throttle_in to the mid-point to avoid a discontinuity on servo_test start-up
+    _throttle_in = 0.5f;
 
     // yaw servo is an angle from -4500 to 4500
     SRV_Channels::set_angle(SRV_Channel::k_motor4, YAW_SERVO_MAX_ANGLE);
@@ -536,33 +539,55 @@ void AP_MotorsHeli_Single::output_to_motors()
 // servo_test - move servos through full range of movement
 void AP_MotorsHeli_Single::servo_test()
 {
-    _servo_test_cycle_time += 1.0f / _loop_rate;
-
-    if ((_servo_test_cycle_time >= 0.0f && _servo_test_cycle_time < 0.5f)||                                   // Tilt swash back
-        (_servo_test_cycle_time >= 6.0f && _servo_test_cycle_time < 6.5f)){
-        _pitch_test += (1.0f / (_loop_rate / 2.0f));
+	if (is_zero(_servo_test_cycle_time)){																	// Step 1
+		_collective_test = _throttle_in;																	// Initialize collective position for smooth transition
+	} else if (_servo_test_cycle_time >= 0.0f && _servo_test_cycle_time < 1.0f){							// Step 2
+		_collective_test -= (1.0f/_loop_rate);																// Lower swash to bottom
+        if (_collective_test < 0.0f){                                                                       // Exit step early once collective it on the bottom
+            _collective_test = 0.0f;
+            _servo_test_cycle_time = 1.0f;
+        }
+	} else if ((_servo_test_cycle_time >= 1.0f && _servo_test_cycle_time < 1.5f)||							// Step 3 and
+        (_servo_test_cycle_time >= 7.0f && _servo_test_cycle_time < 7.5f)){									// Step 7
+        _pitch_test += (1.0f / (_loop_rate / 2.0f));														// Tilt swash back
         _oscillate_angle += 8 * M_PI / _loop_rate;
         _yaw_test = 0.5f * sinf(_oscillate_angle);
-    } else if ((_servo_test_cycle_time >= 0.5f && _servo_test_cycle_time < 4.5f)||                            // Roll swash around
-               (_servo_test_cycle_time >= 6.5f && _servo_test_cycle_time < 10.5f)){
-        _oscillate_angle += M_PI / (2 * _loop_rate);
+    } else if ((_servo_test_cycle_time >= 1.5f && _servo_test_cycle_time < 5.5f)||							// Step 4 and 
+               (_servo_test_cycle_time >= 7.5f && _servo_test_cycle_time < 11.5f)){							// Step 8
+        _oscillate_angle += M_PI / (2 * _loop_rate);														// Roll swash around
         _roll_test = sinf(_oscillate_angle);
         _pitch_test = cosf(_oscillate_angle);
         _yaw_test = sinf(_oscillate_angle);
-    } else if ((_servo_test_cycle_time >= 4.5f && _servo_test_cycle_time < 5.0f)||                            // Return swash to level
-               (_servo_test_cycle_time >= 10.5f && _servo_test_cycle_time < 11.0f)){
-        _pitch_test -= (1.0f / (_loop_rate / 2.0f));
+    } else if ((_servo_test_cycle_time >= 5.5f && _servo_test_cycle_time < 6.0f)||							// Step 5 and 
+               (_servo_test_cycle_time >= 11.5f && _servo_test_cycle_time < 12.0f)){						// Step 9
+        _pitch_test -= (1.0f / (_loop_rate / 2.0f));														// Return swash to level
+        _roll_test = 0.0f;
         _oscillate_angle += 8 * M_PI / _loop_rate;
         _yaw_test = 0.5f * sinf(_oscillate_angle);
-    } else if (_servo_test_cycle_time >= 5.0f && _servo_test_cycle_time < 6.0f){                              // Raise swash to top
-        _collective_test += (1.0f / _loop_rate);
+    } else if (_servo_test_cycle_time >= 6.0f && _servo_test_cycle_time < 7.0f){							// Step 6
+        _collective_test += (1.0f/_loop_rate);																// Raise swash to top
+		_collective_test = constrain_float(_collective_test, 0.0f, 1.0f);
         _oscillate_angle += 2 * M_PI / _loop_rate;
         _yaw_test = sinf(_oscillate_angle);
-    } else if (_servo_test_cycle_time >= 11.0f && _servo_test_cycle_time < 12.0f){                            // Lower swash to bottom
-        _collective_test -= (1.0f / _loop_rate);
-        _oscillate_angle += 2 * M_PI / _loop_rate;
-        _yaw_test = sinf(_oscillate_angle);
-    } else {                                                                                                  // reset cycle
+    } else if (_servo_test_cycle_time >= 12.0f && _servo_test_cycle_time < 13.0f){							// Step 10
+        _collective_test -= (1.0f/_loop_rate);																// Return swash to neutral
+        if (_collective_test < _throttle_in){
+            _servo_test_cycle_time = 13.0f;                                                                 // Exit step early once collective is neutral
+            _collective_test = _throttle_in;                                                                // Constrain collective to _throttle_in value
+        }
+        if (_servo_test_cycle_counter == 1){                                                                 // If exiting servo test function, return servo pitch-roll to neutral
+            if (_roll_test > _roll_in){
+                _roll_test -= (1.0f/_loop_rate);
+            } else if (_roll_test < _roll_in){
+                _roll_test += (1.0f/_loop_rate);
+            }
+            if (_pitch_test > _pitch_in){
+                _pitch_test -= (1.0f/_loop_rate);
+            } else if (_pitch_test < _pitch_in){
+                _pitch_test += (1.0f/_loop_rate);
+            }
+        }
+    } else {																								// Reset cycle and exit
         _servo_test_cycle_time = 0.0f;
         _oscillate_angle = 0.0f;
         _collective_test = 0.0f;
@@ -573,13 +598,16 @@ void AP_MotorsHeli_Single::servo_test()
         if (_servo_test_cycle_counter > 0){
             _servo_test_cycle_counter--;
         }
+		return;
     }
+	
+	_servo_test_cycle_time += 1.0f / _loop_rate;
 
     // over-ride servo commands to move servos through defined ranges
-    _throttle_filter.reset(constrain_float(_collective_test, 0.0f, 1.0f));
-    _roll_in = constrain_float(_roll_test, -1.0f, 1.0f);
-    _pitch_in = constrain_float(_pitch_test, -1.0f, 1.0f);
-    _yaw_in = constrain_float(_yaw_test, -1.0f, 1.0f);
+    _throttle_filter.reset(_collective_test);
+    _roll_in = _roll_test;
+    _pitch_in = _pitch_test;
+    _yaw_in = _yaw_test;
 }
 
 // parameter_check - check if helicopter specific parameters are sensible
