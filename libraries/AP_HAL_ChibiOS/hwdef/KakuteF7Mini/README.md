@@ -2,21 +2,24 @@
 
 http://www.holybro.com/product/kakute-f7-mini/
 
-The KakuteF7 Mini is a flight controller produced by [Holybro](http://www.holybro.com/product/59).
+The KakuteF7 Mini is a flight controller produced by [Holybro](http://www.holybro.com/product/kakute-f7-mini/).
 
 ## Features
 
  - STM32F745 microcontroller
  - ICM20689 IMU
  - BMP280 barometer
- - 128Mbit dataflash
- - MAX7456 OSD
+ - AT7456E OSD
+ - Onbord 16Mbytes for Blackbox logging
  - 6 UARTs
  - 6 PWM outputs
 
-### KakuteF7 Mini Pinout
+## Pinout
 
-![KakuteF7 Mini Board](kakutef7mini.jpg "KakuteF7 Mini")
+### KakuteF7 Pinout
+
+![KakuteF7 Mini Board](kakutef7Mini.jpg "KakuteF7 Mini")
+
 
 ## UART Mapping
 
@@ -28,13 +31,11 @@ receive pin for UARTn. The Tn pin is the transmit pin for UARTn.
  - SERIAL2 -> UART2 (Telem2)
  - SERIAL3 -> UART3 (GPS)
  - SERIAL4 -> UART4
+ - SERIAL5 -> UART7
  - SERIAL6 -> UART6 (Transmit only, FrSky)
- - SERIAL7 -> UART7 (Receive only, ESC Telemetry)
 
-## ESC Telemetry
-
-The SERIAL7 port (UART7) is for ESC telemetry. It is connected through the
-motor connector and works out of the box with the [Tekko32 F3 Mini](https://shop.holybro.com/tekko32-f3-4in1-45a-mini-esc_p1132.html) which is commonly paired with this flight controller
+The SERIAL5 port (UART7) is for ESC telemetry, and has a R7 pad on
+each of the four corners of the KakuteF7 AIO board.
 
 ## RC Input
  
@@ -53,7 +54,7 @@ The KakuteF7 Mini supports OSD using OSD_TYPE 1 (MAX7456 driver).
 
 ## PWM Output
 
-The KakuteF7 supports up to 6 PWM outputs. M1 to M4 are accessed via the connector. M5 and M6 are the pads shown on the above diagram. All 6 outputs support DShot as well as all PWM types.
+The KakuteF7 supports up to 6 PWM outputs. The pads for motor output M1 to M6 on the above diagram are for the 6 outputs. All 6 outputs support DShot as well as all PWM types.
 
 The PWM is in 3 groups:
 
@@ -65,23 +66,9 @@ Channels within the same group need to use the same output rate. If
 any channel in a group uses DShot then all channels in the group need
 to use DShot.
 
-## Battery Monitoring
-
-The board has a builting voltage and current sensor. The current
-sensor can read up to 130 Amps. The voltage sensor can handle up to 6S
-LiPo batteries.
-
-The correct battery setting parameters are:
-
- - BATT_MONITOR 4
- - BATT_VOLT_PIN 13
- - BATT_CURR_PIN 12
- - BATT_VOLT_MULT 10.9
- - BATT_AMP_PERVLT 28.5
-
 ## Compass
 
-The KakuteF7 Mini does not have a builtin compass, but you can attach an external compass using I2C on the SDA and SCL pads.
+The KakuteF7Mini does not have a builting compass, but you can attach an external compass using I2C on the SDA and SCL pads.
 
 ## Loading Firmware
 
@@ -89,9 +76,6 @@ Initial firmware load can be done with DFU by plugging in USB with the
 bootloader button pressed. Then you should load the "with_bl.hex"
 firmware, using your favourite DFU loading tool.
 
-Note that this hardware has problems going into DFU mode if a GPS is connected and powered - please disconnect your GPS when flashing for the first time.
-
 Once the initial firmware is loaded you can update the firmware using
 any ArduPilot ground station software. Updates should be done with the
 *.apj firmware files.
-
