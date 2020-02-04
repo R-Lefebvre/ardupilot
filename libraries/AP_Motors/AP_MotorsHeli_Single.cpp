@@ -134,6 +134,14 @@ const AP_Param::GroupInfo AP_MotorsHeli_Single::var_info[] = {
     // @User: Advanced
     // @Increment: 1
     AP_SUBGROUPINFO(_swashplate, "SW_", 20, AP_MotorsHeli_Single, AP_MotorsHeli_Swash),
+    
+    // @Param: DDFP_MIN_THR
+    // @DisplayName: Direct Drive Fixed Pitch Minimum Throttle
+    // @Description: Minimum throttle output to DDFP ESC while armed.  Used to prevent motor stalling.
+    // @Range: 0 1.0
+    // @Increment: 0.1
+    // @User: Standard
+    AP_GROUPINFO("DDFP_MIN_THR", 21, AP_MotorsHeli_Single,  _ddfp_min_thr, 0.1),
 
     AP_GROUPEND
 };
@@ -525,7 +533,7 @@ void AP_MotorsHeli_Single::output_to_motors()
             update_motor_control(ROTOR_CONTROL_ACTIVE);
             if (_tail_type == AP_MOTORS_HELI_SINGLE_TAILTYPE_DIRECTDRIVE_FIXEDPITCH_CW || _tail_type == AP_MOTORS_HELI_SINGLE_TAILTYPE_DIRECTDRIVE_FIXEDPITCH_CCW){
                 // constrain output so that motor never fully stops
-                 _servo4_out = constrain_float(_servo4_out, -0.9f, 1.0f);
+                 _servo4_out = constrain_float(_servo4_out, -(1.0-_ddfp_min_thr), 1.0f);
                 // output yaw servo to tail rsc
                 rc_write_angle(AP_MOTORS_MOT_4, _servo4_out * YAW_SERVO_MAX_ANGLE);
             }

@@ -146,6 +146,7 @@ protected:
     AP_Float        _collective_yaw_effect;     // Feed-forward compensation to automatically add rudder input when collective pitch is increased. Can be positive or negative depending on mechanics.
     AP_Int8         _flybar_mode;               // Flybar present or not.  Affects attitude controller used during ACRO flight mode
     AP_Int16        _direct_drive_tailspeed;    // Direct Drive VarPitch Tail ESC speed (0 ~ 1000)
+    AP_Float        _ddfp_min_thr;              // Direct Drive Fixed Pitch Minimum Throttle Output while armed to prevent motor/ESC stalling
 
     bool            _acro_tail = false;
 };
