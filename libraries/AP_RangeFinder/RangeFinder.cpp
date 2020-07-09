@@ -86,7 +86,7 @@ const AP_Param::GroupInfo RangeFinder::var_info[] = {
 
     // @Group: 4_
     // @Path: AP_RangeFinder_Wasp.cpp
-    AP_SUBGROUPVARPTR(drivers[0], "4_",  60, RangeFinder, backend_var_info[3]),
+    AP_SUBGROUPVARPTR(drivers[3], "4_",  60, RangeFinder, backend_var_info[3]),
 #endif
 
 #if RANGEFINDER_MAX_INSTANCES > 4
@@ -544,15 +544,22 @@ bool RangeFinder::has_orientation(enum Rotation orientation) const
 // find first range finder instance with the specified orientation
 AP_RangeFinder_Backend *RangeFinder::find_instance(enum Rotation orientation) const
 {
+    // first try for a rangefinder that is in range
     for (uint8_t i=0; i<num_instances; i++) {
         AP_RangeFinder_Backend *backend = get_backend(i);
-        if (backend == nullptr) {
-            continue;
+        if (backend != nullptr &&
+            backend->orientation() == orientation &&
+            backend->status() == RangeFinder_Good) {
+            return backend;
         }
-        if (backend->orientation() != orientation) {
-            continue;
+    }
+    // if none in range then return first with correct orientation
+    for (uint8_t i=0; i<num_instances; i++) {
+        AP_RangeFinder_Backend *backend = get_backend(i);
+        if (backend != nullptr &&
+            backend->orientation() == orientation) {
+            return backend;
         }
-        return backend;
     }
     return nullptr;
 }
