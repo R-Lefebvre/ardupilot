@@ -198,4 +198,93 @@ define HAL_OS_FATFS_IO 1
 
 # Setup for OSD
 define OSD_ENABLED 1
-define HAL_OSD_TYPE_DEFAULT 5 # MSP Displayport
+define HAL_OSD_TYPE_DEFAULT 0 # Disabled by default for lightweight build
+
+# ============================================================================
+# Lightweight FPV Configuration - disable unnecessary systems
+# ============================================================================
+# Library feature gates (must be in hwdef.dat for proper include ordering)
+define HAL_EFI_ENABLED 0
+define HAL_GENERATOR_ENABLED 0
+define AP_FRSKY_TELEM_ENABLED 0
+define AP_WINCH_ENABLED 0
+
+# CAN and DroneCAN
+define HAL_MAX_CAN_PROTOCOL_DRIVERS 0
+define HAL_CANMANAGER_ENABLED 0
+define HAL_ENABLE_DRONECAN_DRIVERS 0
+define HAL_PICCOLO_CAN_ENABLE 0
+
+# Sensors (limit to single instance for each)
+define GPS_MAX_RECEIVERS 1
+define HAL_COMPASS_MAX_SENSORS 2
+define HAL_COMPASS_MAX_UNREG_DEV 0
+define BARO_MAX_INSTANCES 1
+define INS_MAX_INSTANCES 1
+define AP_BATT_MONITOR_MAX_INSTANCES 1
+define AP_MAVLINK_BATTERY2_ENABLED 0
+
+# Servo and RC channel limits
+define HAL_NUM_SERVO_CHANNELS 6
+define HAL_NUM_RC_CHANNELS 8
+
+# Airspeed and external AHRS
+define AP_AIRSPEED_ENABLED 0
+define HAL_EXTERNAL_AHRS_ENABLED 0
+
+# Rangefinder, optical flow, ADSB
+define AP_RANGEFINDER_ENABLED 0
+define AP_OPTICALFLOW_ENABLED 0
+define HAL_ADSB_ENABLED 0
+define AP_AVOIDANCE_ENABLED 0
+
+# Visual odometry and proximity
+define HAL_VISUALODOM_ENABLED 0
+define HAL_PROXIMITY_ENABLED 0
+
+# Parachute and landing gear
+define HAL_PARACHUTE_ENABLED 0
+define AP_LANDINGGEAR_ENABLED 0
+
+# SmartRTL (return to launch path tracking)
+define MODE_SMARTRTL_ENABLED 0
+
+# Payload drop and surface tracking
+define MODE_PAYLOAD_PLACE_ENABLED 0
+
+# Avoid ADSB mode
+define MODE_AVOID_ADSB_ENABLED 0
+
+# Super Simple mode
+define SUPER_SIMPLE_ENABLED 0
+
+# Weather vane (VTOL)
+define WEATHERVANE_ENABLED 0
+
+# Precision landing
+define AC_PRECLAND_ENABLED 0
+
+# RPM sensors
+define AP_RPM_ENABLED 0
+
+# Camera, gimbal, mount
+define AP_CAMERA_ENABLED 0
+define HAL_MOUNT_ENABLED 0
+
+# Object Avoidance Path Planner
+define AP_OAPATHPLANNER_ENABLED 0
+
+# Notification/Notify system
+define HAL_NOTIFY_ENABLED 0
+
+# RunCam and custom rotations
+define HAL_RUNCAM_ENABLED 0
+define AP_CUSTOMROTATIONS_ENABLED 0
+
+# Other systems
+define HAL_DISPLAY_ENABLED 0
+define HAL_WITH_MSP_DISPLAYPORT 0
+define HAL_SPRAYER_ENABLED 0
+define AP_BEACON_ENABLED 0
+define AP_AIS_ENABLED 0
+define AP_GRIPPER_ENABLED 0

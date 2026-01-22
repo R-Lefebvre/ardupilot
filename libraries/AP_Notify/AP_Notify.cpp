@@ -152,6 +152,7 @@ AP_Notify *AP_Notify::_singleton;
 #endif
 
 // table of user settable parameters
+#if HAL_NOTIFY_ENABLED
 const AP_Param::GroupInfo AP_Notify::var_info[] = {
 
     // @Param: LED_BRIGHT
@@ -231,6 +232,12 @@ const AP_Param::GroupInfo AP_Notify::var_info[] = {
 
     AP_GROUPEND
 };
+#else
+// Disabled notify - empty parameter table
+const AP_Param::GroupInfo AP_Notify::var_info[] = {
+    AP_GROUPEND
+};
+#endif
 
 // Default constructor
 AP_Notify::AP_Notify()

@@ -13,7 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "AP_Frsky_Parameters.h"
+#include "AP_Frsky_config.h"
 
+#if AP_FRSKY_TELEM_ENABLED
 
 const AP_Param::GroupInfo AP_Frsky_Parameters::var_info[] = {
 #if HAL_WITH_FRSKY_TELEM_BIDIRECTIONAL
@@ -59,3 +61,5 @@ AP_Frsky_Parameters::AP_Frsky_Parameters()
 {
     AP_Param::setup_object_defaults(this, var_info);
 }
+
+#endif // AP_FRSKY_TELEM_ENABLED

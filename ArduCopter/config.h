@@ -1,6 +1,14 @@
 //
 #pragma once
 
+// Lightweight FPV build - limit servo and RC channels early (before includes)
+#ifndef NUM_SERVO_CHANNELS
+#define NUM_SERVO_CHANNELS 6
+#endif
+#ifndef NUM_RC_CHANNELS
+#define NUM_RC_CHANNELS 8
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //

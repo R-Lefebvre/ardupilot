@@ -13,6 +13,22 @@ OSCILLATOR_HZ 16000000
 # flash size
 FLASH_SIZE_KB 2048
 
+# Channel limits (lightweight FPV config)
+define HAL_NUM_SERVO_CHANNELS 6
+define HAL_NUM_RC_CHANNELS 8
+undef NUM_SERVO_CHANNELS
+define NUM_SERVO_CHANNELS 6
+undef NUM_RC_CHANNELS
+define NUM_RC_CHANNELS 8
+
+# Disable optional servo protocol backends to drop related parameters
+define AP_FETTEC_ONEWIRE_ENABLED 0
+define AP_VOLZ_ENABLED 0
+define AP_ROBOTISSERVO_ENABLED 0
+
+# Limit relay count to 2 for lightweight build
+define AP_RELAY_NUM_RELAYS 2
+
 # enable DFU reboot for installing bootloader
 # note that if firmware is build with --secure-bl then DFU is
 # disabled

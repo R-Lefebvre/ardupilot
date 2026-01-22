@@ -41,14 +41,19 @@ const AP_Param::GroupInfo RC_Channels::var_info[] = {
     // @Path: RC_Channel.cpp
     AP_SUBGROUPINFO(obj_channels[5], "6_",  6, RC_CHANNELS_SUBCLASS, RC_CHANNEL_SUBCLASS),
 
+#if NUM_RC_CHANNELS > 6
     // @Group: 7_
     // @Path: RC_Channel.cpp
     AP_SUBGROUPINFO(obj_channels[6], "7_",  7, RC_CHANNELS_SUBCLASS, RC_CHANNEL_SUBCLASS),
+#endif
 
+#if NUM_RC_CHANNELS > 7
     // @Group: 8_
     // @Path: RC_Channel.cpp
     AP_SUBGROUPINFO(obj_channels[7], "8_",  8, RC_CHANNELS_SUBCLASS, RC_CHANNEL_SUBCLASS),
+#endif
 
+#if NUM_RC_CHANNELS > 8
     // @Group: 9_
     // @Path: RC_Channel.cpp
     AP_SUBGROUPINFO(obj_channels[8], "9_",  9, RC_CHANNELS_SUBCLASS, RC_CHANNEL_SUBCLASS),
@@ -80,6 +85,7 @@ const AP_Param::GroupInfo RC_Channels::var_info[] = {
     // @Group: 16_
     // @Path: RC_Channel.cpp
     AP_SUBGROUPINFO(obj_channels[15], "16_", 16, RC_CHANNELS_SUBCLASS, RC_CHANNEL_SUBCLASS),
+#endif
 
     // @Param: _OVERRIDE_TIME
     // @DisplayName: RC override timeout

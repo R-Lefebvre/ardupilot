@@ -7,7 +7,9 @@
 #endif
 
 #ifndef NUM_SERVO_CHANNELS
-    #if BOARD_FLASH_SIZE > 1024
+    #if defined(HAL_NUM_SERVO_CHANNELS)
+        #define NUM_SERVO_CHANNELS HAL_NUM_SERVO_CHANNELS
+    #elif BOARD_FLASH_SIZE > 1024
         #define NUM_SERVO_CHANNELS 32
     #else
         #define NUM_SERVO_CHANNELS 16

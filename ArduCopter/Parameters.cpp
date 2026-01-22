@@ -171,12 +171,16 @@ const AP_Param::Info Copter::var_info[] = {
     // @User: Advanced
     GSCALAR(gps_hdop_good, "GPS_HDOP_GOOD", GPS_HDOP_GOOD_DEFAULT),
 
+#if SUPER_SIMPLE_ENABLED
+#if SUPER_SIMPLE_ENABLED
     // @Param: SUPER_SIMPLE
     // @DisplayName: Super Simple Mode
     // @Description: Bitmask to enable Super Simple mode for some flight modes. Setting this to Disabled(0) will disable Super Simple Mode. The bitmask is for flight mode switch positions
     // @Bitmask: 0:SwitchPos1, 1:SwitchPos2, 2:SwitchPos3, 3:SwitchPos4, 4:SwitchPos5, 5:SwitchPos6
     // @User: Standard
     GSCALAR(super_simple,   "SUPER_SIMPLE",     0),
+#endif
+#endif
 
     // @Param: WP_YAW_BEHAVIOR
     // @DisplayName: Yaw behaviour during missions
@@ -297,12 +301,14 @@ const AP_Param::Info Copter::var_info[] = {
     // @User: Advanced
     GSCALAR(initial_mode,        "INITIAL_MODE",     (uint8_t)Mode::Number::STABILIZE),
 
+#if SUPER_SIMPLE_ENABLED
     // @Param: SIMPLE
     // @DisplayName: Simple mode bitmask
     // @Description: Bitmask which holds which flight modes use simple heading mode (eg bit 0 = 1 means Flight Mode 0 uses simple mode). The bitmask is for flightmode switch positions.
     // @Bitmask: 0:SwitchPos1, 1:SwitchPos2, 2:SwitchPos3, 3:SwitchPos4, 4:SwitchPos5, 5:SwitchPos6
     // @User: Advanced
     GSCALAR(simple_modes, "SIMPLE",                 0),
+#endif
 
     // @Param: LOG_BITMASK
     // @DisplayName: Log bitmask
@@ -680,9 +686,11 @@ const AP_Param::Info Copter::var_info[] = {
     GOBJECT(avoidance_adsb, "AVD_", AP_Avoidance_Copter),
 #endif
 
+#if HAL_NOTIFY_ENABLED
     // @Group: NTF_
     // @Path: ../libraries/AP_Notify/AP_Notify.cpp
     GOBJECT(notify, "NTF_",  AP_Notify),
+#endif
 
 #if MODE_THROW_ENABLED
     // @Param: THROW_MOT_START
@@ -1169,6 +1177,7 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
  */
 const AP_Param::GroupInfo ParametersG2::var_info2[] = {
 
+#if MODE_PAYLOAD_PLACE_ENABLED
     // @Param: PLDP_THRESH
     // @DisplayName: Payload Place thrust ratio threshold
     // @Description: Ratio of vertical thrust during decent below which payload touchdown will trigger.
@@ -1199,7 +1208,9 @@ const AP_Param::GroupInfo ParametersG2::var_info2[] = {
     // @Range: 0 5
     // @User: Standard
     AP_GROUPINFO("PLDP_SPEED_DN", 4, ParametersG2, pldp_descent_speed_ms, 0.0),
+#endif
 
+#if AP_RANGEFINDER_ENABLED
     // @Param: SURFTRAK_TC
     // @DisplayName: Surface Tracking Filter Time Constant
     // @Description: Time to achieve 63.2% of the surface altitude measurement change.  If 0 filtering is disabled
@@ -1207,6 +1218,7 @@ const AP_Param::GroupInfo ParametersG2::var_info2[] = {
     // @Range: 0 5
     // @User: Advanced
     AP_GROUPINFO("SURFTRAK_TC", 5, ParametersG2, surftrak_tc, 1.0),
+#endif
 
     // @Param: TKOFF_THR_MAX
     // @DisplayName: Takeoff maximum throttle during take-off ramp up

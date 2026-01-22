@@ -142,8 +142,42 @@ define HAL_LOGGING_DATAFLASH_ENABLED 1
 SPIDEV osd SPI3 DEVID1 OSD1_CS   MODE0  10*MHZ  10*MHZ
 
 define OSD_ENABLED 1
-define HAL_OSD_TYPE_DEFAULT 1
+define HAL_OSD_TYPE_DEFAULT 0 # Disabled by default for lightweight build
 ROMFS_WILDCARD libraries/AP_OSD/fonts/font*.bin
+
+# Lightweight FPV Configuration - channel and sensor limits
+define HAL_NUM_SERVO_CHANNELS 6
+define HAL_NUM_RC_CHANNELS 8
+define HAL_COMPASS_MAX_SENSORS 2
+define HAL_COMPASS_MAX_UNREG_DEV 0
+define GPS_MAX_RECEIVERS 1
+define BARO_MAX_INSTANCES 1
+define INS_MAX_INSTANCES 1
+define AP_BATT_MONITOR_MAX_INSTANCES 1
+
+# Servo and relay limits
+define HAL_NOTIFY_ENABLED 0
+define AP_RELAY_NUM_RELAYS 2
+
+# Disable servo protocol backends (not in minimize_common.inc)
+define AP_FETTEC_ONEWIRE_ENABLED 0
+define AP_VOLZ_ENABLED 0
+define AP_ROBOTISSERVO_ENABLED 0
+
+# Additional FPV-specific disables (not covered by minimize_common.inc)
+define AP_FRSKY_TELEM_ENABLED 0
+define MODE_SMARTRTL_ENABLED 0
+define MODE_PAYLOAD_PLACE_ENABLED 0
+define MODE_AVOID_ADSB_ENABLED 0
+define SUPER_SIMPLE_ENABLED 0
+define AC_PRECLAND_ENABLED 0
+define HAL_PARACHUTE_ENABLED 0
+define AP_CAMERA_ENABLED 0
+define AP_CUSTOMROTATIONS_ENABLED 0
+define AP_AVOIDANCE_ENABLED 0
+define AP_RANGEFINDER_ENABLED 0
+define AP_RPM_ENABLED 0
+define HAL_RUNCAM_ENABLED 0
 
 # Barometer setup
 BARO DPS310 I2C:0:0x76
@@ -168,3 +202,13 @@ define HAL_DEFAULT_INS_FAST_SAMPLE 3
 define HAL_FRAME_TYPE_DEFAULT 12
 
 include ../include/minimize_fpv_osd.inc
+
+# Override minimize_common.inc servo/RC channel limits for lightweight FPV
+undef NUM_SERVO_CHANNELS
+define NUM_SERVO_CHANNELS 6
+undef NUM_RC_CHANNELS
+define NUM_RC_CHANNELS 8
+
+# Landing gear override (minimize_common.inc sets it conditionally)
+undef AP_LANDINGGEAR_ENABLED
+define AP_LANDINGGEAR_ENABLED 0

@@ -620,50 +620,50 @@ const AP_Param::GroupInfo Compass::var_info[] = {
     AP_GROUPINFO("OPTIONS", 43, Compass, _options, 0),
 #endif
 
-#if COMPASS_MAX_UNREG_DEV > 0
+#if HAL_COMPASS_MAX_UNREG_DEV > 0
     // @Param: DEV_ID4
     // @DisplayName: Compass4 device id
     // @Description: Extra 4th compass's device id.  Automatically detected, do not set manually
     // @ReadOnly: True
     // @User: Advanced
     AP_GROUPINFO("DEV_ID4", 44, Compass, extra_dev_id[0], 0),
-#endif // COMPASS_MAX_UNREG_DEV
+#endif // HAL_COMPASS_MAX_UNREG_DEV
 
-#if COMPASS_MAX_UNREG_DEV > 1
+#if HAL_COMPASS_MAX_UNREG_DEV > 1
     // @Param: DEV_ID5
     // @DisplayName: Compass5 device id
     // @Description: Extra 5th compass's device id.  Automatically detected, do not set manually
     // @ReadOnly: True
     // @User: Advanced
     AP_GROUPINFO("DEV_ID5", 45, Compass, extra_dev_id[1], 0),
-#endif // COMPASS_MAX_UNREG_DEV
+#endif // HAL_COMPASS_MAX_UNREG_DEV
 
-#if COMPASS_MAX_UNREG_DEV > 2
+#if HAL_COMPASS_MAX_UNREG_DEV > 2
     // @Param: DEV_ID6
     // @DisplayName: Compass6 device id
     // @Description: Extra 6th compass's device id.  Automatically detected, do not set manually
     // @ReadOnly: True
     // @User: Advanced
     AP_GROUPINFO("DEV_ID6", 46, Compass, extra_dev_id[2], 0),
-#endif // COMPASS_MAX_UNREG_DEV
+#endif // HAL_COMPASS_MAX_UNREG_DEV
 
-#if COMPASS_MAX_UNREG_DEV > 3
+#if HAL_COMPASS_MAX_UNREG_DEV > 3
     // @Param: DEV_ID7
     // @DisplayName: Compass7 device id
     // @Description: Extra 7th compass's device id.  Automatically detected, do not set manually
     // @ReadOnly: True
     // @User: Advanced
     AP_GROUPINFO("DEV_ID7", 47, Compass, extra_dev_id[3], 0),
-#endif // COMPASS_MAX_UNREG_DEV
+#endif // HAL_COMPASS_MAX_UNREG_DEV
 
-#if COMPASS_MAX_UNREG_DEV > 4
+#if HAL_COMPASS_MAX_UNREG_DEV > 4
     // @Param: DEV_ID8
     // @DisplayName: Compass8 device id
     // @Description: Extra 8th compass's device id.  Automatically detected, do not set manually
     // @ReadOnly: True
     // @User: Advanced
     AP_GROUPINFO("DEV_ID8", 48, Compass, extra_dev_id[4], 0),
-#endif // COMPASS_MAX_UNREG_DEV
+#endif // HAL_COMPASS_MAX_UNREG_DEV
 
     // @Param: CUS_ROLL
     // @DisplayName: Custom orientation roll offset
