@@ -99,6 +99,9 @@ public:
     /* Do not allow copies */
     CLASS_NO_COPY(AP_Vehicle);
 
+    // Allow Copter to access private methods for fast rate thread
+    friend class Copter;
+
     static AP_Vehicle *get_singleton();
 
     // setup() is called once during vehicle startup to initialise the

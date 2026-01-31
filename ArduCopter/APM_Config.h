@@ -36,6 +36,11 @@
 #define MODE_CIRCLE_ENABLED           1
 
 // ============================================================================
+// FAST RATE THREAD - Enable for high-performance rate control
+// ============================================================================
+#define AP_INERTIALSENSOR_FAST_SAMPLE_WINDOW_ENABLED 1
+
+// ============================================================================
 // Safety overrides for camera, external AHRS, notifications, OA (compile gates)
 // These are handled in hwdef.dat for proper include ordering
 // See: libraries/AP_HAL_ChibiOS/hwdef/ARK_FPV/hwdef.dat
