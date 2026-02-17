@@ -1,0 +1,58 @@
+Waf: Entering directory `/home/robert/ardupilot/build/ARK_FPV'
+Checking for env.py
+env added USE_ALT_RAM_MAP=1
+env added ENABLE_DFU_BOOT=1
+env added WITH_FATFS=1
+env added PROCESS_STACK=0x1C00
+env added MAIN_STACK=0x600
+env added IOMCU_FW=0
+env added PERIPH_FW=0
+env added HAL_NUM_CAN_IFACES=1
+env added HAL_CANFD_SUPPORTED=4
+env added BOARD_FLASH_SIZE=2048
+env added EXT_FLASH_SIZE_MB=0
+env added INT_FLASH_PRIMARY=False
+env added ENABLE_CRASHDUMP=True
+env appended CPU_FLAGS=['-mcpu=cortex-m7', '-mfpu=fpv5-d16', '-mfloat-abi=hard', '-DARM_MATH_CM7', '-u_printf_float']
+env added CORTEX=cortex-m7
+env added APJ_BOARD_ID=59
+env added APJ_BOARD_TYPE=STM32H743xx
+env added USBID=0x1209/0x5740
+env added FLASH_RESERVE_START_KB=128
+env added EXT_FLASH_RESERVE_START_KB=0
+env added FLASH_TOTAL=1703936
+env added HAS_EXTERNAL_FLASH_SECTIONS=0
+env added CHIBIOS_BUILD_FLAGS=USE_FATFS=yes CHIBIOS_STARTUP_MK=os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32h7xx.mk CHIBIOS_PLATFORM_MK=os/hal/ports/STM32/STM32H7xx/platform.mk MCU=cortex-m7 ENV_UDEFS=-DCHPRINTF_USE_FLOAT=1
+Padded 12 bytes for bootloader.bin to 20736
+Embedding file bootloader.bin:/home/robert/ardupilot/Tools/bootloaders/ARK_FPV_bl.bin
+Embedding file defaults.parm:/home/robert/ardupilot/build/ARK_FPV/processed_defaults.parm
+Embedding file hwdef.dat:/home/robert/ardupilot/build/ARK_FPV/hw.dat
+[11/12] Linking build/ARK_FPV/modules/ChibiOS/libch.a
+No target_list file found, creating
+Generating compile_commands.json
+Build commands will be stored in build/ARK_FPV/compile_commands.json
+Generating compile_commands.json
+Build commands will be stored in build/ARK_FPV/compile_commands.json
+[ 203/1225] Compiling libraries/AP_DroneCAN/AP_Canard_iface.cpp
+[ 205/1225] Compiling libraries/AP_EFI/AP_EFI_Serial_MS.cpp
+[ 209/1225] Compiling libraries/AP_EFI/AP_EFI_NWPMU.cpp
+[ 210/1225] Compiling libraries/AP_EFI/AP_EFI_MAV.cpp
+[ 211/1225] Compiling libraries/AP_EFI/AP_EFI_DroneCAN.cpp
+[ 212/1225] Compiling libraries/AP_EFI/AP_EFI_Currawong_ECU.cpp
+[ 213/1225] Compiling libraries/AP_EFI/AP_EFI_Backend.cpp
+[ 214/1225] Compiling libraries/AP_EFI/AP_EFI.cpp
+[ 215/1225] Compiling libraries/AP_ESC_Telem/AP_ESC_Telem_SITL.cpp
+[ 216/1225] Compiling libraries/AP_ESC_Telem/AP_ESC_Telem.cpp
+[ 217/1225] Compiling libraries/AP_ExternalAHRS/AP_ExternalAHRS_VectorNav.cpp
+[ 218/1225] Compiling libraries/AP_ExternalAHRS/AP_ExternalAHRS_backend.cpp
+../../libraries/AP_DroneCAN/AP_Canard_iface.cpp: In static member function 'static bool CanardInterface::shouldAcceptTransfer(const CanardInstance*, uint64_t*, uint16_t, CanardTransferType, uint8_t)':
+../../libraries/AP_DroneCAN/AP_Canard_iface.cpp:189:72: error: no matching function for call to 'CanardInterface::accept_message(uint16_t&, uint64_t&)'
+  189 |     return iface->accept_message(data_type_id, *out_data_type_signature);
+      |                                                                        ^
+compilation terminated due to -Wfatal-errors.
+
+Waf: Leaving directory `/home/robert/ardupilot/build/ARK_FPV'
+Build failed
+ -> task in 'objs/AP_DroneCAN' failed (exit status 1): 
+	{task 133646633059616: cxx AP_Canard_iface.cpp -> AP_Canard_iface.cpp.0.o}
+ (run with -v to display more information)
