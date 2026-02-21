@@ -1,20 +1,21 @@
-# Minimal decontented build for ARK_FPV
+# Minimal decontented build for OrqaH7QuadCore
 # Based on Andy's SmallFastDrone-4.6 branch
 # Keep only essential copter features
 
-# Enable the compass that ARK_FPV uses
-define AP_COMPASS_IIS2MDC_ENABLED 1
+# OrqaH7QuadCore uses DPS310 baro
+define AP_BARO_DPS310_ENABLED 1
+
+# Allow no compass (external compass optional on OrqaH7QuadCore)
+define HAL_PROBE_EXTERNAL_I2C_COMPASSES 1
 
 # Enable only essential RC protocols (SBUS, CRSF for typical FPV use)
 define AP_RCPROTOCOL_ENABLED 1
 define AP_RCPROTOCOL_SBUS_ENABLED 1
 define AP_RCPROTOCOL_CRSF_ENABLED 1
+define AP_RCPROTOCOL_GHST_ENABLED 1
 
 # Enable only UBLOX GPS (most common)
 define AP_GPS_UBLOX_ENABLED 1
-
-# Enable only needed baro (ICP101XX is on ARK_FPV)
-define AP_BARO_ICP101XX_ENABLED 1
 
 # Keep essential flight modes only
 define MODE_ACRO_ENABLED 1
