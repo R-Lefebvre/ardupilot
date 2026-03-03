@@ -2,6 +2,9 @@
 # Based on Andy's SmallFastDrone-4.6 branch
 # Keep only essential copter features
 
+# CRITICAL: Optimize for speed instead of size for 4kHz rate loops
+env OPTIMIZE -O2
+
 # Enable the compass that ARK_FPV uses
 define AP_COMPASS_IIS2MDC_ENABLED 1
 
@@ -11,6 +14,7 @@ define AP_RCPROTOCOL_SBUS_ENABLED 1
 define AP_RCPROTOCOL_CRSF_ENABLED 1
 
 # Enable only UBLOX GPS (most common)
+define AP_GPS_BACKEND_DEFAULT_ENABLED 0
 define AP_GPS_UBLOX_ENABLED 1
 
 # Enable only needed baro (ICP101XX is on ARK_FPV)
@@ -26,6 +30,8 @@ define MODE_GUIDED_ENABLED 1
 define MODE_RTL_ENABLED 1
 define MODE_LAND_ENABLED 1
 define MODE_POSHOLD_ENABLED 1
+# Enable only quad frame (disable all others first, then enable quad)
+define AP_MOTORS_FRAME_DEFAULT_ENABLED 0
 define AP_MOTORS_FRAME_QUAD_ENABLED 1
 
 # Enable ESC telemetry (common on FPV quads)
@@ -76,14 +82,19 @@ define HAL_DISPLAY_ENABLED 0
 define HAL_NMEA_OUTPUT_ENABLED 0
 define AP_MAVLINK_FTP_ENABLED 0
 define HAL_HIGH_LATENCY2_ENABLED 0
-
-# Disable unused motor frames
-define AP_MOTORS_FRAME_HEXA_ENABLED 0
-define AP_MOTORS_FRAME_OCTA_ENABLED 0
-define AP_MOTORS_FRAME_OCTAQUAD_ENABLED 0
-define AP_MOTORS_FRAME_Y6_ENABLED 0
-define AP_MOTORS_FRAME_DECA_ENABLED 0
-define AP_MOTORS_FRAME_DODECAHEXA_ENABLED 0
+define AP_SBUSOUTPUT_ENABLED 0
+define AP_CAN_SLCAN_ENABLED 0
+define HAL_PICCOLO_CAN_ENABLE 0
+define AP_KDECAN_ENABLED 0
+define AP_INERTIALSENSOR_KILL_IMU_ENABLED 0
+define AP_GHST_TELEM_ENABLED 0
+define AP_RANGEFINDER_JRE_SERIAL_ENABLED 0
+define AP_RANGEFINDER_AINSTEIN_LR_D1_ENABLED 0
+define AP_RANGEFINDER_TOFSENSEF_I2C_ENABLED 0
+define AP_RANGEFINDER_RDS02UF_ENABLED 0
+define AP_RANGEFINDER_NOOPLOOP_ENABLED 0
+define AP_MOUNT_BACKEND_DEFAULT_ENABLED 0
+define NUM_SERVO_CHANNELS 8
 
 # Disable unused modes
 define MODE_FLIP_ENABLED 0
@@ -122,5 +133,5 @@ define AP_VIDEOTX_ENABLED 0
 define HAL_GYROFFT_ENABLED 0
 define AP_INERTIALSENSOR_BATCHSAMPLER_ENABLED 0
 
-# Disable DroneCAN drivers (CAN hardware stays enabled but no DroneCAN protocol)
-define HAL_ENABLE_DRONECAN_DRIVERS 0
+# Note: Cannot disable HAL_ENABLE_DRONECAN_DRIVERS when CAN hardware is enabled
+# Instead, disable specific CAN protocols we don't need (already done above)
